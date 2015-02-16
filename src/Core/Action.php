@@ -6,7 +6,7 @@ abstract class Action
 {
     protected $scenario;
 
-    abstract public function execute();
+    abstract public function execute($result);
 
     public function __invoke(Runnable $scenario, $lastStepResult)
     {
