@@ -11,8 +11,14 @@ class ScenarioConfiguration implements LoaderInterface
 
     public function bind($eventName, $scenarioClassName)
     {
-        $this->assertScenarioExists($scenarioClassName);
-        $this->assertScenarioIsPlayable($scenarioClassName);
+        if (!is_callable($scenarioClassName)) {
+            $this->assertScenarioExists($scenarioClassName);
+            $this->assertScenarioIsRunnable($scenarioClassName);
+        }
+
+        // todo solve multiple event bindings problem
+        // actual solution is to rebind, latest binding wins
+
         $this->registeredScenarios[$eventName] = $scenarioClassName;
     }
 
@@ -25,13 +31,13 @@ class ScenarioConfiguration implements LoaderInterface
         }
     }
 
-    protected function assertScenarioIsPlayable($scenarioClassName)
+    protected function assertScenarioIsRunnable($scenarioClassName)
     {
         $class = new ReflectionClass($scenarioClassName);
-        if (!$class->implementsInterface('Keios\Apparatus\Contracts\Playable')) {
+        if (!$class->implementsInterface('Keios\Apparatus\Contracts\Runnable')) {
             throw new InvalidScenarioException(
                 sprintf(
-                    'Scenario class %s does not implement interface Keios\Apparatus\Contracts\Playable.',
+                    'Scenario class %s does not implement interface Keios\Apparatus\Contracts\Runnable.',
                     $scenarioClassName
                 )
             );

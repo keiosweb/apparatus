@@ -10,7 +10,7 @@ interface Dispatchable
      *
      * @return Dispatchable
      */
-    public function event($eventName);
+    public function name($eventName);
 
     /**
      * @fluent

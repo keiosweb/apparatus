@@ -4,7 +4,6 @@ use Keios\Apparatus\Contracts\Dispatchable;
 
 class Dispatcher
 {
-
     protected $scenarioRepository;
 
     protected $scenarioRunner;
@@ -16,14 +15,12 @@ class Dispatcher
         $this->scenarioRunner->setDispatcher($this);
     }
 
-    public function dispatch(Dispatchable $dispatch)
+    public function dispatch(Dispatchable $event)
     {
+        $scenario = $this->scenarioRepository->findHandlerScenarioFor($event);
 
-        $scenario = $this->scenarioRepository->findHandlerScenarioFor($dispatch);
-
-        $reaction = $this->scenarioRunner->run($scenario, $dispatch);
+        $reaction = $this->scenarioRunner->run($scenario, $event);
 
         return $reaction;
     }
-
 } 

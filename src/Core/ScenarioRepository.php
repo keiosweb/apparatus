@@ -13,11 +13,11 @@ class ScenarioRepository
         $this->scenarioFactory = $scenarioFactory;
     }
 
-    public function findHandlerScenarioFor(Dispatchable $dispatch)
+    public function findHandlerScenarioFor(Dispatchable $event)
     {
-        $eventName = $dispatch->getEventName();
+        $eventName = $event->getEventName();
 
-        $this->scenarioCache[$eventName] = $this->scenarioFactory->findHandlerScenarioFor($dispatch);
+        $this->scenarioCache[$eventName] = $this->scenarioFactory->findHandlerScenarioFor($event);
 
         return $this->scenarioCache[$eventName];
     }

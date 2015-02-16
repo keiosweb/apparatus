@@ -1,29 +1,19 @@
 <?php namespace Keios\Apparatus\Tests\Fixtures;
 
-use Keios\Apparatus\Contracts\Playable;
+use Keios\Apparatus\Contracts\Runnable;
 use Keios\Apparatus\Core\Scenario;
 
-class TestScenario extends Scenario implements Playable
+class TestScenario extends Scenario implements Runnable
 {
-
-    public function play($data, array $expectedReactions)
+    protected function setUp()
     {
-        if (!in_array('test.string', $expectedReactions)) {
-            throw new \InvalidArgumentException('We can only return test.string!');
-        }
-
-        if ($data['clicked'] === 'A') {
-            return 'A was clicked';
-        }
-        if ($data['clicked'] === 'B') {
-            return 'B was clicked';
-        }
-
-        throw new \InvalidArgumentException('Invalid data provided!');
     }
 
-    public function testDispatchingNewEvents()
+    /**
+     * TESTS ONLY
+     */
+    public static function resetStaticState()
     {
-        $this->dispatch('test.event', [1, 2, 3], ['test.reaction']);
+        static::$registeredCallbacks = [];
     }
 } 

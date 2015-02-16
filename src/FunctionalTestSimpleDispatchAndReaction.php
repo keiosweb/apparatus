@@ -1,6 +1,6 @@
 <?php namespace Keios\Apparatus\Tests;
 
-use Keios\Apparatus\Core\Dispatch;
+use Keios\Apparatus\Core\Event;
 use Keios\Apparatus\Core\Dispatcher;
 use Keios\Apparatus\Core\ScenarioConfiguration;
 use Keios\Apparatus\Core\ScenarioFactory;
@@ -20,11 +20,11 @@ class FunctionalTestSimpleDispatchAndReaction extends \PHPUnit_Framework_TestCas
         $dispatcher = new Dispatcher(new ScenarioRepository(new ScenarioFactory($scenarioConfiguration)),
             new ScenarioRunner());
 
-        $dispatch = new Dispatch($dispatcher);
+        $event = new Event($dispatcher);
 
-        $dispatch->event('test.event')->with(['clicked' => 'A'])->expect(['test.string']);
+        $event->name('test.event')->with(['clicked' => 'A'])->expect(['test.string']);
 
-        $reaction = $dispatch->getReaction();
+        $reaction = $event->getReaction();
 
         $this->assertEquals('A was clicked', $reaction);
     }
@@ -40,9 +40,9 @@ class FunctionalTestSimpleDispatchAndReaction extends \PHPUnit_Framework_TestCas
         $dispatcher = new Dispatcher(new ScenarioRepository(new ScenarioFactory($scenarioConfiguration)),
             new ScenarioRunner());
 
-        $dispatch = new Dispatch($dispatcher);
+        $event = new Event($dispatcher);
 
-        $dispatch->event('test.event')->with(['clicked' => 'A'])->expect(['some.string'])->getReaction();
+        $event->name('test.event')->with(['clicked' => 'A'])->expect(['some.string'])->getReaction();
     }
 
     public function tearDown()

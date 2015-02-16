@@ -2,7 +2,7 @@
 
 use Keios\Apparatus\Contracts\Dispatchable;
 
-class Dispatch implements Dispatchable
+class Event implements Dispatchable
 {
     protected $dispatcher;
 
@@ -24,11 +24,23 @@ class Dispatch implements Dispatchable
      *
      * @return \Keios\Apparatus\Contracts\Dispatchable $this
      */
-    public function event($eventName)
+    public function name($eventName)
     {
         $this->eventName = $eventName;
 
         return $this;
+    }
+
+    /**
+     * @fluent
+     *
+     * @param $eventName
+     *
+     * @return \Keios\Apparatus\Contracts\Dispatchable $this
+     */
+    public function event($eventName)
+    {
+        return $this->name($eventName);
     }
 
     /**
