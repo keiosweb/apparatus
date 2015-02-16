@@ -1,6 +1,6 @@
 <?php namespace Keios\Apparatus\Tests;
 
-use Keios\Apparatus\Tests\Fixtures\TestScenario;
+use Keios\Apparatus\Tests\Fixtures\BasicScenario;
 use Mockery;
 
 class TestScenarioClass extends \PHPUnit_Framework_TestCase
@@ -25,7 +25,7 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
         $eventMock->shouldReceive('getExpectedReactions')->andReturn(['some reaction']);
         $eventMock->shouldReceive('getEventData')->andReturn([1, 2, 3]);
 
-        $scenario = new TestScenario();
+        $scenario = new BasicScenario();
         $scenario->setDispatcher($this->dispatcherMock);
         $scenario->inject($eventMock);
 
@@ -68,7 +68,7 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
             ->with('step 2 result')
             ->andReturn('step 3 result final');
 
-        $scenario = new TestScenario();
+        $scenario = new BasicScenario();
         $scenario->setDispatcher($this->dispatcherMock);
         $scenario->inject($eventMock);
         $scenario->add($step1Mock);
@@ -114,15 +114,15 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
         $thirdEventMock->shouldReceive('getExpectedReactions')->andReturn(['some reaction']);
         $thirdEventMock->shouldReceive('getEventData')->andReturn([1, 2, 3]);
 
-        $scenarioFirstInstance = new TestScenario();
-        $scenarioSecondInstance = new TestScenario();
-        $scenarioThirdInstance = new TestScenario();
+        $scenarioFirstInstance = new BasicScenario();
+        $scenarioSecondInstance = new BasicScenario();
+        $scenarioThirdInstance = new BasicScenario();
 
         $step1Mock->shouldReceive('__invoke')
             ->with([1, 2, 3])
             ->andReturnUsing(
                 function () use ($scenarioFirstInstance) {
-                    $scenarioFirstInstance->stopAndReturn();
+                    $scenarioFirstInstance->waitForInteraction();
 
                     return 'step 1 result';
                 }
@@ -132,7 +132,7 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
             ->with([1, 2, 3])
             ->andReturnUsing(
                 function () use ($scenarioSecondInstance) {
-                    $scenarioSecondInstance->stopAndReturn();
+                    $scenarioSecondInstance->waitForInteraction();
 
                     return 'step 2 result';
                 }
@@ -142,7 +142,7 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
             ->with([1, 2, 3])
             ->andReturnUsing(
                 function () use ($scenarioThirdInstance) {
-                    $scenarioThirdInstance->stopAndReturn();
+                    $scenarioThirdInstance->waitForInteraction();
 
                     return 'step 3 result final';
                 }
@@ -206,7 +206,7 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
         $step5Mock->shouldReceive('getTriggeringEvents')->andReturn([]);
         $step6Mock->shouldReceive('getTriggeringEvents')->andReturn([]);
 
-        $scenario = new TestScenario();
+        $scenario = new BasicScenario();
 
         $step1Mock->shouldReceive('__invoke')
             ->with([1, 2, 3])
@@ -229,8 +229,8 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
             ->with('step 5 result')
             ->andReturn('step 6 result');
 
-        TestScenario::extend(
-            function (TestScenario $scenario) use ($step4Mock, $step5Mock, $step6Mock) {
+        BasicScenario::extend(
+            function (BasicScenario $scenario) use ($step4Mock, $step5Mock, $step6Mock) {
                 $scenario->insertAfter('step1', $step4Mock);
                 $scenario->insertBefore('step3', $step6Mock);
                 $scenario->replace('step2', $step5Mock);
@@ -273,8 +273,8 @@ class TestScenarioClass extends \PHPUnit_Framework_TestCase
         $step3Mock->shouldReceive('getTriggeringEvents')->andReturn([]);
 
         $this->dispatcherMock->shouldReceive('dispatch')->with(Mockery::type('Keios\Apparatus\Contracts\Dispatchable'));
-        TestScenario::resetStaticState();
-        $scenario = new TestScenario();
+        BasicScenario::resetStaticState();
+        $scenario = new BasicScenario();
 
         $step1Mock->shouldReceive('__invoke')
             ->with([1, 2, 3])

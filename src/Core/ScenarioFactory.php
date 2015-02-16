@@ -12,7 +12,7 @@ class ScenarioFactory
 
     public function __construct(LoaderInterface $scenarioLoader)
     {
-        $this->getScenarios($scenarioLoader);
+        $this->getScenariosFrom($scenarioLoader);
     }
 
     public function findHandlerScenarioFor(Dispatchable $event)
@@ -34,7 +34,7 @@ class ScenarioFactory
         return isset($this->registeredScenarios[$eventName]);
     }
 
-    protected function getScenarios(LoaderInterface $scenarioLoader)
+    protected function getScenariosFrom(LoaderInterface $scenarioLoader)
     {
         if (!is_array($loadedScenarios = $scenarioLoader->loadScenarios())) {
             throw new InvalidScenarioConfigurationException('Scenario registration list must be an array!');

@@ -1,8 +1,8 @@
 <?php namespace Keios\Apparatus\Tests;
 
-use Keios\Apparatus\Core\ScenarioFactory;
+use Keios\Apparatus\Tests\Fixtures\BasicScenario;
 use Keios\Apparatus\Tests\Fixtures\NotAScenario;
-use Keios\Apparatus\Tests\Fixtures\TestScenario;
+use Keios\Apparatus\Core\ScenarioFactory;
 use Mockery;
 
 class TestScenarioFactory extends \PHPUnit_Framework_TestCase
@@ -10,7 +10,7 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
     public function testFactoryCanBeInitialized()
     {
         $loaderMock = Mockery::mock('Keios\Apparatus\Contracts\LoaderInterface');
-        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event' => 'Keios\Apparatus\Tests\Fixtures\TestScenario']);
+        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event' => 'Keios\Apparatus\Tests\Fixtures\ChainedEventsScenario']);
 
         new ScenarioFactory($loaderMock);
     }
@@ -29,13 +29,13 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
     public function testFactoryCanFindHandlerScenarioAndInstantiateScenario()
     {
         $loaderMock = Mockery::mock('Keios\Apparatus\Contracts\LoaderInterface');
-        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event' => 'Keios\Apparatus\Tests\Fixtures\TestScenario']);
+        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event' => 'Keios\Apparatus\Tests\Fixtures\BasicScenario']);
         $dispatchMock = Mockery::mock('Keios\Apparatus\Contracts\Dispatchable');
         $dispatchMock->shouldReceive('getEventName')->andReturn('test.event');
 
         $factory = new ScenarioFactory($loaderMock);
 
-        $this->assertEquals(new TestScenario(), $factory->findHandlerScenarioFor($dispatchMock));
+        $this->assertEquals(new BasicScenario(), $factory->findHandlerScenarioFor($dispatchMock));
     }
 
     /**
@@ -44,13 +44,13 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
     public function testThrowExceptionIfNoHandlerForEventIsFound()
     {
         $loaderMock = Mockery::mock('Keios\Apparatus\Contracts\LoaderInterface');
-        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event.other' => 'Keios\Apparatus\Tests\Fixtures\TestScenario']);
+        $loaderMock->shouldReceive('loadScenarios')->andReturn(['test.event.other' => 'Keios\Apparatus\Tests\Fixtures\BasicScenario']);
         $dispatchMock = Mockery::mock('Keios\Apparatus\Contracts\Dispatchable');
         $dispatchMock->shouldReceive('getEventName')->andReturn('test.event');
 
         $factory = new ScenarioFactory($loaderMock);
 
-        $this->assertEquals(new TestScenario(), $factory->findHandlerScenarioFor($dispatchMock));
+        $this->assertEquals(new BasicScenario(), $factory->findHandlerScenarioFor($dispatchMock));
     }
 
     public function testClosuresCanBeResolvedToInstantiateScenarios()
@@ -59,7 +59,7 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
         $loaderMock->shouldReceive('loadScenarios')->andReturn(
             [
                 'test.event' => function () {
-                    return 'Keios\Apparatus\Tests\Fixtures\TestScenario';
+                    return 'Keios\Apparatus\Tests\Fixtures\BasicScenario';
                 }
             ]
         );
@@ -68,7 +68,7 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
 
         $factory = new ScenarioFactory($loaderMock);
 
-        $this->assertEquals(new TestScenario(), $factory->findHandlerScenarioFor($dispatchMock));
+        $this->assertEquals(new BasicScenario(), $factory->findHandlerScenarioFor($dispatchMock));
     }
 
     public function testClosuresCanReturnReadyInstances()
@@ -77,7 +77,7 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
         $loaderMock->shouldReceive('loadScenarios')->andReturn(
             [
                 'test.event' => function () {
-                    return new TestScenario();
+                    return new BasicScenario();
                 }
             ]
         );
@@ -86,7 +86,7 @@ class TestScenarioFactory extends \PHPUnit_Framework_TestCase
 
         $factory = new ScenarioFactory($loaderMock);
 
-        $this->assertEquals(new TestScenario(), $factory->findHandlerScenarioFor($dispatchMock));
+        $this->assertEquals(new BasicScenario(), $factory->findHandlerScenarioFor($dispatchMock));
     }
 
     /**

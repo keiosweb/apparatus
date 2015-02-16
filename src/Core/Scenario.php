@@ -19,6 +19,8 @@ abstract class Scenario implements Runnable
 
     protected $results = [];
 
+    protected $booted = false;
+
     protected static $registeredCallbacks = [];
 
     public function __construct()
@@ -90,6 +92,7 @@ abstract class Scenario implements Runnable
 
     public function add(Step $step)
     {
+        $step->setScenario($this);
         $this->steps->add($step);
     }
 
@@ -118,15 +121,20 @@ abstract class Scenario implements Runnable
         return end($this->results);
     }
 
-    public function stopAndReturn()
+    public function waitForInteraction()
     {
         $this->returnAfterCurrentStep = true;
     }
 
     protected function bootScenario()
     {
-        $this->setUp();
-        $this->bootExtensibility();
+        $this->returnAfterCurrentStep = false;
+        $this->results = [];
+        if (!$this->booted) {
+            $this->setUp();
+            $this->bootExtensibility();
+            $this->booted = true;
+        }
         $this->results[] = $this->eventData;
     }
 

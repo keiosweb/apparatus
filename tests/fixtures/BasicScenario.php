@@ -3,10 +3,11 @@
 use Keios\Apparatus\Contracts\Runnable;
 use Keios\Apparatus\Core\Scenario;
 
-class TestScenario extends Scenario implements Runnable
+class BasicScenario extends Scenario implements Runnable
 {
     protected function setUp()
     {
+
     }
 
     /**
@@ -16,4 +17,4 @@ class TestScenario extends Scenario implements Runnable
     {
         static::$registeredCallbacks = [];
     }
-} 
+}

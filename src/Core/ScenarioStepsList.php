@@ -235,7 +235,7 @@ class ScenarioStepsList
         }
     }
 
-    private function assertStepExists($stepName)
+    protected function assertStepExists($stepName)
     {
         if (!$this->hasStepNamed($stepName)) {
             throw new NoStepWithNameFoundException(

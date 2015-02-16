@@ -25,10 +25,10 @@ class TestScenarioConfiguration extends \PHPUnit_Framework_TestCase
     public function testScenariosCanBeRegistered()
     {
         $scenarioConfiguration = new ScenarioConfiguration();
-        $scenarioConfiguration->bind('test.event', 'Keios\Apparatus\Tests\Fixtures\TestScenario');
+        $scenarioConfiguration->bind('test.event', 'Keios\Apparatus\Tests\Fixtures\ChainedEventsScenario');
 
         $this->assertEquals(
-            ['test.event' => 'Keios\Apparatus\Tests\Fixtures\TestScenario'],
+            ['test.event' => 'Keios\Apparatus\Tests\Fixtures\ChainedEventsScenario'],
             $scenarioConfiguration->loadScenarios()
         );
     }
