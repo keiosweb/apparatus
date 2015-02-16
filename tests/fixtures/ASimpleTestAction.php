@@ -4,7 +4,7 @@ use Keios\Apparatus\Core\Action;
 
 class ASimpleTestAction extends Action
 {
-    public function execute()
+    public function execute($result)
     {
         return 'response';
     }
