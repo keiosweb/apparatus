@@ -5,10 +5,25 @@ use Keios\Apparatus\Exceptions\InvalidScenarioException;
 use Keios\Apparatus\Contracts\LoaderInterface;
 use ReflectionClass;
 
+/**
+ * Class ScenarioConfiguration
+ *
+ * @package Keios\Apparatus
+ */
 class ScenarioConfiguration implements LoaderInterface
 {
+    /**
+     * @var array
+     */
     protected $registeredScenarios = [];
 
+    /**
+     * @param $eventName
+     * @param $scenarioClassName
+     *
+     * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
+     * @throws \Keios\Apparatus\Exceptions\ScenarioNotFoundException
+     */
     public function bind($eventName, $scenarioClassName)
     {
         if (!is_callable($scenarioClassName)) {
@@ -22,6 +37,11 @@ class ScenarioConfiguration implements LoaderInterface
         $this->registeredScenarios[$eventName] = $scenarioClassName;
     }
 
+    /**
+     * @param $scenarioClassName
+     *
+     * @throws \Keios\Apparatus\Exceptions\ScenarioNotFoundException
+     */
     protected function assertScenarioExists($scenarioClassName)
     {
         if (!class_exists($scenarioClassName)) {
@@ -31,6 +51,11 @@ class ScenarioConfiguration implements LoaderInterface
         }
     }
 
+    /**
+     * @param $scenarioClassName
+     *
+     * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
+     */
     protected function assertScenarioIsRunnable($scenarioClassName)
     {
         $class = new ReflectionClass($scenarioClassName);
@@ -44,6 +69,9 @@ class ScenarioConfiguration implements LoaderInterface
         }
     }
 
+    /**
+     * @return array
+     */
     public function loadScenarios()
     {
         return $this->registeredScenarios;

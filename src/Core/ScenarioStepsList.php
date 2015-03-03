@@ -8,23 +8,51 @@ use Keios\Apparatus\Exceptions\NoStepWithNameFoundException;
 use Keios\Apparatus\Exceptions\NotInitializedException;
 use Keios\Apparatus\Exceptions\StepAlreadyRegisteredException;
 
+/**
+ * Class ScenarioStepsList
+ *
+ * @package Keios\Apparatus
+ */
 class ScenarioStepsList
 {
+    /**
+     * @var bool
+     */
     protected $initialized = false;
 
+    /**
+     * @var array
+     */
     protected $eventBindings = [];
 
+    /**
+     * @var array
+     */
     protected $steps = [];
 
+    /**
+     * @var null|Step
+     */
     protected $currentStep = null;
 
+    /**
+     * @var \Keios\Apparatus\Contracts\Runnable
+     */
     protected $scenario;
 
+    /**
+     * @param \Keios\Apparatus\Contracts\Runnable $scenario
+     */
     public function __construct(Runnable $scenario)
     {
         $this->scenario = $scenario;
     }
 
+    /**
+     * @param $eventName
+     *
+     * @throws \Keios\Apparatus\Exceptions\NoStepsDefinedException
+     */
     public function initialize($eventName)
     {
         $this->assertNotEmpty();
@@ -36,11 +64,18 @@ class ScenarioStepsList
         $this->initialized = true;
     }
 
+    /**
+     * @return bool
+     */
     public function isEmpty()
     {
         return count($this->steps) === 0;
     }
 
+    /**
+     * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
+     */
     public function getCurrentStep()
     {
         $this->assertIsInitialized();
@@ -48,6 +83,10 @@ class ScenarioStepsList
         return $this->steps[$this->currentStep];
     }
 
+    /**
+     * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
+     */
     public function getNextStep()
     {
         $this->assertIsInitialized();
@@ -60,6 +99,10 @@ class ScenarioStepsList
         return next($this->steps);
     }
 
+    /**
+     * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
+     */
     public function getPreviousStep()
     {
         $this->assertIsInitialized();
@@ -72,34 +115,57 @@ class ScenarioStepsList
         return prev($this->steps);
     }
 
+    /**
+     * @return bool
+     */
     public function hasNextStep()
     {
         return $this->getNextStep() !== false;
     }
 
+    /**
+     * @return bool
+     */
     public function hasPreviousStep()
     {
         return $this->getPreviousStep() !== false;
     }
 
+    /**
+     *
+     */
     public function moveToNextStep()
     {
         $nextStep = $this->getNextStep() ?: $this->steps[$this->currentStep];
         $this->currentStep = $nextStep->getName();
     }
 
+    /**
+     *
+     */
     public function moveToPreviousStep()
     {
         $previousStep = $this->getPreviousStep() ?: $this->steps[$this->currentStep];
         $this->currentStep = $previousStep->getName();
     }
 
+    /**
+     * @param $stepName
+     *
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
+     */
     public function setCurrentStep($stepName)
     {
         $this->assertStepExists($stepName);
         $this->currentStep = $stepName;
     }
 
+    /**
+     * @param \Keios\Apparatus\Core\Step $step
+     *
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\StepAlreadyRegisteredException
+     */
     public function add(Step $step)
     {
         $this->assertUniqueEventBinding($step->getTriggeringEvents());
@@ -110,11 +176,22 @@ class ScenarioStepsList
         $this->registerTriggeringEvents($step);
     }
 
+    /**
+     * @param $stepName
+     *
+     * @return bool
+     */
     public function hasStepNamed($stepName)
     {
         return isset($this->steps[$stepName]);
     }
 
+    /**
+     * @param $eventName
+     *
+     * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
+     */
     public function getStepForEvent($eventName)
     {
         $this->assertHasStepForEvent($eventName);
@@ -122,16 +199,30 @@ class ScenarioStepsList
         return $this->eventBindings[$eventName];
     }
 
+    /**
+     * @param                            $stepName
+     * @param \Keios\Apparatus\Core\Step $step
+     */
     public function insertAfter($stepName, Step $step)
     {
         $this->insert($stepName, $step);
     }
 
+    /**
+     * @param                            $stepName
+     * @param \Keios\Apparatus\Core\Step $step
+     */
     public function insertBefore($stepName, Step $step)
     {
         $this->insert($stepName, $step, false);
     }
 
+    /**
+     * @param                            $stepNameToReplace
+     * @param \Keios\Apparatus\Core\Step $replacingStep
+     *
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
+     */
     public function replace($stepNameToReplace, Step $replacingStep)
     {
         $this->assertStepExists($stepNameToReplace);
@@ -155,6 +246,14 @@ class ScenarioStepsList
         $this->steps = array_combine($temporaryStepNames, $temporarySteps);
     }
 
+    /**
+     * @param                            $stepName
+     * @param \Keios\Apparatus\Core\Step $step
+     * @param bool                       $after
+     *
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
+     */
     protected function insert($stepName, Step $step, $after = true)
     {
         $this->assertStepExists($stepName);
@@ -180,6 +279,9 @@ class ScenarioStepsList
         $this->registerTriggeringEvents($step);
     }
 
+    /**
+     * @param \Keios\Apparatus\Core\Step $step
+     */
     protected function registerTriggeringEvents(Step $step)
     {
         foreach ($step->getTriggeringEvents() as $triggeringEvent) {
@@ -187,6 +289,11 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @param array $eventNames
+     *
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     */
     protected function assertUniqueEventBinding(array $eventNames)
     {
         foreach ($eventNames as $eventName) {
@@ -203,6 +310,11 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @param $stepName
+     *
+     * @throws \Keios\Apparatus\Exceptions\StepAlreadyRegisteredException
+     */
     protected function assertUniqueStepName($stepName)
     {
         if (isset($this->steps[$stepName])) {
@@ -212,6 +324,11 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @param $eventName
+     *
+     * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
+     */
     protected function assertHasStepForEvent($eventName)
     {
         if (!isset($this->eventBindings[$eventName])) {
@@ -221,6 +338,9 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @throws \Keios\Apparatus\Exceptions\NoStepsDefinedException
+     */
     protected function assertNotEmpty()
     {
         if ($this->isEmpty()) {
@@ -228,6 +348,9 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
+     */
     protected function assertIsInitialized()
     {
         if (!$this->initialized) {
@@ -235,6 +358,11 @@ class ScenarioStepsList
         }
     }
 
+    /**
+     * @param $stepName
+     *
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
+     */
     protected function assertStepExists($stepName)
     {
         if (!$this->hasStepNamed($stepName)) {
