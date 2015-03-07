@@ -115,8 +115,13 @@ abstract class Scenario implements Runnable
         $this->steps->initialize($this->eventName);
 
         do {
+            /**
+             * @var \Keios\Apparatus\Core\Step $currentStep
+             */
             $currentStep = $this->steps->getCurrentStep();
+
             $this->results[$currentStep->getName()] = $currentStep($this->getLastResult());
+
             if ($this->steps->hasNextStep()) {
                 $this->steps->moveToNextStep();
             } else {

@@ -10,7 +10,7 @@ use Keios\Apparatus\Contracts\Runnable;
 abstract class Action
 {
     /**
-     * @var
+     * @var \Keios\Apparatus\Contracts\Runnable $scenario
      */
     protected $scenario;
 

@@ -84,7 +84,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @return mixed
+     * @return \Keios\Apparatus\Core\Step
      * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function getNextStep()
@@ -100,7 +100,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @return mixed
+     * @return \Keios\Apparatus\Core\Step
      * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function getPreviousStep()
