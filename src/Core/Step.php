@@ -96,6 +96,18 @@ class Step
     }
 
     /**
+     * @fluent
+     * @param callable $sideAction
+     * @return Step
+     */
+    public function with(callable $sideAction)
+    {
+        $this->sideActions[] = $sideAction;
+
+        return $this;
+    }
+
+    /**
      *
      */
     protected function importSideActions()
