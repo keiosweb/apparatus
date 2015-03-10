@@ -106,6 +106,16 @@ abstract class Scenario implements Runnable
     }
 
     /**
+     * @param string $property
+     *
+     * @return bool
+     */
+    public function has($property)
+    {
+        return property_exists($this, $property);
+    }
+
+    /**
      * @return mixed
      */
     public function run()
