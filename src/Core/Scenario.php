@@ -65,6 +65,8 @@ abstract class Scenario implements Runnable
 
     /**
      * @param \Keios\Apparatus\Core\Dispatcher $dispatcher
+     *
+     * @return mixed|void
      */
     public function setDispatcher(Dispatcher $dispatcher)
     {
@@ -73,6 +75,8 @@ abstract class Scenario implements Runnable
 
     /**
      * @param \Keios\Apparatus\Contracts\Dispatchable $event
+     *
+     * @return mixed|void
      */
     public function inject(Dispatchable $event)
     {
@@ -146,9 +150,9 @@ abstract class Scenario implements Runnable
     }
 
     /**
-     * @param       $eventName
-     * @param       $data
-     * @param array $expectedReactions
+     * @param string $eventName
+     * @param        $data
+     * @param array  $expectedReactions
      *
      * @return mixed
      */
@@ -188,6 +192,7 @@ abstract class Scenario implements Runnable
      * @param \Keios\Apparatus\Core\Step $step
      *
      * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
     public function insertBefore($stepName, Step $step)
     {
@@ -199,6 +204,7 @@ abstract class Scenario implements Runnable
      * @param \Keios\Apparatus\Core\Step $step
      *
      * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
     public function insertAfter($stepName, Step $step)
     {

@@ -1,12 +1,17 @@
 <?php namespace Keios\Apparatus\Contracts;
 
 
+/**
+ * Interface Dispatchable
+ * @package Keios\Apparatus\Contracts
+ */
 interface Dispatchable
 {
 
     /**
      * @fluent
-     * @param $eventName
+     *
+     * @param string $eventName
      *
      * @return Dispatchable
      */
@@ -14,6 +19,7 @@ interface Dispatchable
 
     /**
      * @fluent
+     *
      * @param $data
      *
      * @return Dispatchable
@@ -22,6 +28,7 @@ interface Dispatchable
 
     /**
      * @fluent
+     *
      * @param array $expectedReactions
      *
      * @return Dispatchable

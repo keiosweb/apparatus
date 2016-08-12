@@ -34,6 +34,7 @@ class Dispatcher
      * @param \Keios\Apparatus\Contracts\Dispatchable $event
      *
      * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
      * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */
     public function dispatch(Dispatchable $event)

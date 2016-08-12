@@ -11,7 +11,7 @@ use Keios\Apparatus\Contracts\Runnable;
 class ScenarioRunner
 {
     /**
-     * @var
+     * @var Dispatcher
      */
     protected $dispatcher;
 

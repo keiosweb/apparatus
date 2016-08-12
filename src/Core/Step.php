@@ -15,7 +15,7 @@ class Step
     protected static $sideActionsCache = [];
 
     /**
-     * @var
+     * @var string
      */
     protected $name;
 
@@ -25,7 +25,7 @@ class Step
     protected $action;
 
     /**
-     * @var
+     * @var Runnable
      */
     protected $scenario;
 
@@ -40,7 +40,7 @@ class Step
     protected $sideActions = [];
 
     /**
-     * @param          $name
+     * @param string   $name
      * @param callable $action
      * @param array    $triggeringEvents
      */
@@ -80,7 +80,7 @@ class Step
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getName()
     {
@@ -97,7 +97,9 @@ class Step
 
     /**
      * @fluent
+     *
      * @param callable $sideAction
+     *
      * @return Step
      */
     public function with(callable $sideAction)
@@ -107,9 +109,6 @@ class Step
         return $this;
     }
 
-    /**
-     *
-     */
     protected function importSideActions()
     {
         if (isset(static::$sideActionsCache[$this->name]) && is_array(static::$sideActionsCache[$this->name])) {
@@ -143,7 +142,7 @@ class Step
     }
 
     /**
-     * @param          $stepName
+     * @param string   $stepName
      * @param callable $sideAction
      */
     public static function addSideAction($stepName, callable $sideAction)

@@ -45,7 +45,7 @@ class ScenarioFactory
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @return bool
      */
@@ -105,7 +105,7 @@ class ScenarioFactory
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */

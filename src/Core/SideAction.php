@@ -9,6 +9,12 @@ use Keios\Apparatus\Contracts\Runnable;
  */
 abstract class SideAction extends Action
 {
+    /**
+     * @param Runnable $scenario
+     * @param          $result
+     *
+     * @return mixed|void
+     */
     public function __invoke(Runnable $scenario, $result)
     {
         $this->scenario = $scenario;

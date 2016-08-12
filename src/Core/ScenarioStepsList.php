@@ -135,7 +135,6 @@ class ScenarioStepsList
     }
 
     /**
-     *
      * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function moveToNextStep()
@@ -145,7 +144,6 @@ class ScenarioStepsList
     }
 
     /**
-     *
      * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function moveToPreviousStep()
@@ -155,7 +153,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
@@ -182,7 +180,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @return bool
      */
@@ -192,7 +190,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @return mixed
      * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
@@ -205,7 +203,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
      *
      * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
@@ -217,7 +215,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
      *
      * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
@@ -229,7 +227,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepNameToReplace
+     * @param string                     $stepNameToReplace
      * @param \Keios\Apparatus\Core\Step $replacingStep
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
@@ -259,7 +257,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
      * @param bool                       $after
      *
@@ -323,7 +321,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\StepAlreadyRegisteredException
      */
@@ -337,7 +335,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
      */
@@ -371,7 +369,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
