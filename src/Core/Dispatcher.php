@@ -34,13 +34,13 @@ class Dispatcher
      * @param \Keios\Apparatus\Contracts\Dispatchable $event
      *
      * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
+     * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */
     public function dispatch(Dispatchable $event)
     {
         $scenario = $this->scenarioRepository->findHandlerScenarioFor($event);
 
-        $reaction = $this->scenarioRunner->run($scenario, $event);
-
-        return $reaction;
+        return $this->scenarioRunner->run($scenario, $event);
     }
 } 

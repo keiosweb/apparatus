@@ -54,7 +54,7 @@ class Event implements Dispatchable
     /**
      * @fluent
      *
-     * @param $eventName
+     * @param string $eventName
      *
      * @return \Keios\Apparatus\Contracts\Dispatchable $this
      */
@@ -94,6 +94,7 @@ class Event implements Dispatchable
 
     /**
      * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */
     public function getReaction()
     {
@@ -102,7 +103,7 @@ class Event implements Dispatchable
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getEventName()
     {

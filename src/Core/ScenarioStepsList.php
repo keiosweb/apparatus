@@ -33,7 +33,7 @@ class ScenarioStepsList
     /**
      * @var null|Step
      */
-    protected $currentStep = null;
+    protected $currentStep;
 
     /**
      * @var \Keios\Apparatus\Contracts\Runnable
@@ -52,6 +52,7 @@ class ScenarioStepsList
      * @param $eventName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepsDefinedException
+     * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
      */
     public function initialize($eventName)
     {
@@ -117,6 +118,7 @@ class ScenarioStepsList
 
     /**
      * @return bool
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function hasNextStep()
     {
@@ -125,6 +127,7 @@ class ScenarioStepsList
 
     /**
      * @return bool
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function hasPreviousStep()
     {
@@ -132,7 +135,7 @@ class ScenarioStepsList
     }
 
     /**
-     *
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function moveToNextStep()
     {
@@ -141,7 +144,7 @@ class ScenarioStepsList
     }
 
     /**
-     *
+     * @throws \Keios\Apparatus\Exceptions\NotInitializedException
      */
     public function moveToPreviousStep()
     {
@@ -150,7 +153,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
@@ -177,7 +180,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @return bool
      */
@@ -187,7 +190,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @return mixed
      * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
@@ -200,8 +203,11 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
+     *
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
     public function insertAfter($stepName, Step $step)
     {
@@ -209,8 +215,11 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
+     *
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
+     * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */
     public function insertBefore($stepName, Step $step)
     {
@@ -218,10 +227,11 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepNameToReplace
+     * @param string                     $stepNameToReplace
      * @param \Keios\Apparatus\Core\Step $replacingStep
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
+     * @throws \Keios\Apparatus\Exceptions\EventAlreadyRegisteredException
      */
     public function replace($stepNameToReplace, Step $replacingStep)
     {
@@ -247,7 +257,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param                            $stepName
+     * @param string                     $stepName
      * @param \Keios\Apparatus\Core\Step $step
      * @param bool                       $after
      *
@@ -311,7 +321,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\StepAlreadyRegisteredException
      */
@@ -325,7 +335,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $eventName
+     * @param string $eventName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepForEventFoundException
      */
@@ -359,7 +369,7 @@ class ScenarioStepsList
     }
 
     /**
-     * @param $stepName
+     * @param string $stepName
      *
      * @throws \Keios\Apparatus\Exceptions\NoStepWithNameFoundException
      */

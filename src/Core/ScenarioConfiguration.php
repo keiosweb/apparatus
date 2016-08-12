@@ -18,8 +18,8 @@ class ScenarioConfiguration implements LoaderInterface
     protected $registeredScenarios = [];
 
     /**
-     * @param $eventName
-     * @param $scenarioClassName
+     * @param string $eventName
+     * @param string $scenarioClassName
      *
      * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
      * @throws \Keios\Apparatus\Exceptions\ScenarioNotFoundException
@@ -38,7 +38,7 @@ class ScenarioConfiguration implements LoaderInterface
     }
 
     /**
-     * @param $scenarioClassName
+     * @param string $scenarioClassName
      *
      * @throws \Keios\Apparatus\Exceptions\ScenarioNotFoundException
      */
@@ -52,7 +52,7 @@ class ScenarioConfiguration implements LoaderInterface
     }
 
     /**
-     * @param $scenarioClassName
+     * @param string $scenarioClassName
      *
      * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
      */
