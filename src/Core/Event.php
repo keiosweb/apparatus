@@ -94,6 +94,7 @@ class Event implements Dispatchable
 
     /**
      * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */
     public function getReaction()
     {

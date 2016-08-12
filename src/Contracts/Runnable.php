@@ -1,7 +1,6 @@
 <?php namespace Keios\Apparatus\Contracts;
 
 use Keios\Apparatus\Core\Dispatcher;
-use Keios\Apparatus\Core\Step;
 
 interface Runnable
 {

@@ -32,6 +32,7 @@ class ScenarioFactory
      * @param \Keios\Apparatus\Contracts\Dispatchable $event
      *
      * @return mixed
+     * @throws \Keios\Apparatus\Exceptions\InvalidScenarioException
      * @throws \Keios\Apparatus\Exceptions\NoHandlerScenarioFoundException
      */
     public function findHandlerScenarioFor(Dispatchable $event)
@@ -93,11 +94,9 @@ class ScenarioFactory
     protected function resolveClosure($closure)
     {
         $scenario = $closure();
-
-        if ($interfaces = class_implements($scenario)) {
-            if (in_array('Keios\Apparatus\Contracts\Runnable', $interfaces)) {
+        $interfaces = class_implements($scenario);
+        if ($interfaces && in_array('Keios\Apparatus\Contracts\Runnable', $interfaces, true)) {
                 return is_object($scenario) ? $scenario : new $scenario();
-            }
         }
 
         throw new InvalidScenarioException(
